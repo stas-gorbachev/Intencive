@@ -1,4 +1,4 @@
-package ru.aston.gorbachev_ss.task3;
+package ru.aston.gorbachev_ss.task13;
 
 class Study {
 

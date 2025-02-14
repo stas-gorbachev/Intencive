@@ -1,4 +1,4 @@
-package ru.aston.gorbachev_ss.task2;
+package ru.aston.gorbachev_ss.task12;
 
 public class Car {
 

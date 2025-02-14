@@ -1,4 +1,4 @@
-package ru.aston.gorbachev_ss.task6;
+package ru.aston.gorbachev_ss.task16;
 
 public class Tree {
 

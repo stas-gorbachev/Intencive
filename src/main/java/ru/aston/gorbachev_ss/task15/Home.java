@@ -1,4 +1,4 @@
-package ru.aston.gorbachev_ss.task5;
+package ru.aston.gorbachev_ss.task15;
 
 import java.util.Scanner;
 import java.time.Year;

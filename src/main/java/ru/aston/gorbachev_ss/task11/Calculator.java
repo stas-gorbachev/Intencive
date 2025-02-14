@@ -1,4 +1,4 @@
-package ru.aston.gorbachev_ss.task1;
+package ru.aston.gorbachev_ss.task11;
 
 public class Calculator {
 
