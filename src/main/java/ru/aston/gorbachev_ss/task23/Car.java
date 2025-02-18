@@ -1,14 +1,14 @@
 package ru.aston.gorbachev_ss.task23;
 
 public class Car {
+
     public int weight;
     public String model;
     public char color;
     public float speed;
 
-
     public void outPut () {
-        System.out.println("Вес " + model + " составляет " + weight + "кг.");
+        System.out.println("Вес " + model + " составляет " + weight + " кг.");
         System.out.println("Цвет машины - " + color + " и её скорость - " + speed);
     }
 
@@ -24,15 +24,13 @@ public class Car {
 
 class Truck extends Car {
 
-    byte wheels;
-    int maxWeight;
+    int wheels, maxWeight;
 
     void newWheels() {
-//        wheels = 10;
-        System.out.println("Количество колёс: " + (wheels = 10));
+        System.out.println("Установлено новое количество колёс: " + (wheels = 10));
     }
 
-    Truck (int w, String m, char c, float s, byte wheels, int maxWeight) {
+    Truck (int w, String m, char c, float s, int wheels, int maxWeight) {
         super (w, m, c, s);
         this.wheels = wheels;
         this.maxWeight = maxWeight;
@@ -41,6 +39,11 @@ class Truck extends Car {
 
 class Main {
     public static void main(String[] args) {
-        
+        Truck car = new Truck(15880, "fabia", 'g', 160.7f, 8, 20000);
+        car.outPut();
+        System.out.println("Автомобиль с максимальным весом " + car.maxWeight + " кг. и количеством колёс - " + car.wheels);
+        car.newWheels();
+        car.outPut();
+        System.out.println("Автомобиль с максимальным весом " + car.maxWeight + " кг. и количеством колёс - " + car.wheels);
     }
 }
