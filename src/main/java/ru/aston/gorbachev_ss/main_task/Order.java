@@ -13,6 +13,10 @@ abstract class Order implements Discount {
         this.coefficient = coefficient;
     }
 
+    double getTicketAmount() {
+        return amount;
+    }
+
     int getId() {
         return id;
     }
