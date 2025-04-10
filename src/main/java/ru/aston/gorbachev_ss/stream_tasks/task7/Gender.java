@@ -1,0 +1,16 @@
+package ru.aston.gorbachev_ss.stream_tasks.task7;
+
+public enum Gender {
+    MALE("Male"), FEMALE("Female");
+
+    private String gender;
+
+    Gender(String gender) {
+        this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return gender;
+    }
+}
