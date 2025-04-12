@@ -78,18 +78,16 @@ public class Main {
             persons.forEach(p -> System.out.println(p.getName()));
         });
 
-        /*// 8. Объединить и вывести имена людей через подчеркивание
-        String namesJoined = combined.stream()
+        //Объединить и вывести имена людей через подчеркивание
+        String names = peoples.stream()
                 .map(Person::getName)
                 .collect(Collectors.joining("_"));
-        System.out.println("\nВсе имена через подчеркивание: " + namesJoined);
+        System.out.println("\nОбъединение имён людей через подчеркивание: " + names);
 
-        // 9. Получить и вывести взрослых канадских мужчин
+        //Получить и вывести взрослых канадских мужчин
         System.out.println("\nВзрослые канадские мужчины:");
-        combined.stream()
-                .filter(p -> p.isAdult() &&
-                        p.getCountry().getName().equals("Canada") &&
-                        p.getGender() == Gender.MALE)
-                .forEach(p -> System.out.println(p.getName()));*/
+        peoples.stream()
+                .filter(p -> p.isAdult() && p.getCountry().getName().equals("Canada") && p.getGender() == Gender.MALE)
+                .forEach(p -> System.out.println(p.getName()));
     }
 }
