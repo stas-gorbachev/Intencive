@@ -1,17 +1,30 @@
 package ru.aston.gorbachev_ss.collections_task;
 
 /**
- * Кастомная реализация хеш-мапы без использования интерфейса Map.
- * Разрешение коллизий осуществляется методом цепочек (связные списки).
- * @param <K> тип ключа
- * @param <V> тип значения
+ * Реализация HashMap с методами добавления/обновления, получения и удаления элементов.
+ * @param <K> тип для ключей в бакете
+ * @param <V> тип для значений в бакете
  */
-
 public class MyHashMap<K, V> {
 
-    private static final int DEFAULT_CAPACITY = 16;
-    private static final float LOAD_FACTOR = 0.75f;
+    /**
+     * Константа хранящая значение начального размера массива бакетов (нод).
+     */
+    private static final int START_SIZE = 16;
+
+    /**
+     * Константа хранящая коэффициент загруженности мапы, при достижении которого, размер мапы увеличивается в 2 раза.
+     */
+    private static final float LOAD_COEFFICIENT = 0.75f;
+
+    /**
+     * Массив бакетов для хранения данных HashMap.
+     */
     private Node<K, V>[] table;
+
+    /**
+     * Переменная, которая хранит значение размера мапы.
+     */
     private int size;
 
     /**
@@ -42,7 +55,7 @@ public class MyHashMap<K, V> {
      * Создает хеш-мапу с дефолтной емкостью (16)
      */
     public MyHashMap() {
-        table = (Node<K, V>[]) new Node[DEFAULT_CAPACITY];
+        table = (Node<K, V>[]) new Node[START_SIZE];
     }
 
     /**
@@ -91,7 +104,7 @@ public class MyHashMap<K, V> {
     private void addNode(int hash, K key, V value, int index) {
         Node<K, V> newNode = new Node<>(hash, key, value, table[index]);
         table[index] = newNode;
-        if (++size > table.length * LOAD_FACTOR) {
+        if (++size > table.length * LOAD_COEFFICIENT) {
             resize();
         }
     }
