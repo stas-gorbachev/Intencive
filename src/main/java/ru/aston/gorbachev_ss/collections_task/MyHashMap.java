@@ -28,20 +28,20 @@ public class MyHashMap<K, V> {
     private int size;
 
     /**
-     * Узел для хранения пары ключ-значение
+     * Описание полей бакета (ноды).
      */
     private static class Node<K, V> {
+        final int hash;
         final K key;
         V value;
-        final int hash;
         Node<K, V> next;
 
         /**
-         * Конструктор узла
-         * @param hash хеш-код ключа
+         * Конструктор для бакета.
+         * @param hash hashCode полученный для ключа
          * @param key ключ
          * @param value значение
-         * @param next ссылка на следующий узел в цепочке
+         * @param next ссылка на следующий бакет в массиве
          */
         Node(int hash, K key, V value, Node<K, V> next) {
             this.hash = hash;
@@ -52,7 +52,7 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * Создает хеш-мапу с дефолтной емкостью (16)
+     * Создает HashMap с начальным размером 16.
      */
     public MyHashMap() {
         table = (Node<K, V>[]) new Node[START_SIZE];
