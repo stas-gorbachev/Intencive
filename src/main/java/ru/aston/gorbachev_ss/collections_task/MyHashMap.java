@@ -59,9 +59,23 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * Добавляет или обновляет пару ключ-значение
-     * @param key ключ
-     * @param value значение
+     * Вычисляет hash для ключа через остаток от деления.
+     * Если ключ равен null всегда вернётся 0.
+     * @param key ключ, который необходимо вставить в HashMap
+     * @return индекс бакета, в который будет помещена пара ключ-значение
+     */
+    private int hash(K key) {
+        if (key == null) {
+            return 0;
+        }
+        return key.hashCode() % table.length;
+    }
+
+    /**
+     * Добавляет/обновляет пару ключ-значение в HashMap.
+     * Если ключ равен null - добавление/обновление выполняется через другой метод.
+     * @param key ключ, который необходимо поместить в HashMap
+     * @param value значение, которое необходимо поместить в HashMap
      */
     public void put(K key, V value) {
         if (key == null) {
@@ -187,14 +201,6 @@ public class MyHashMap<K, V> {
      */
     public boolean isEmpty() {
         return size == 0;
-    }
-
-    /**
-     * Вычисляет хеш ключа
-     */
-    private int hash(K key) {
-        int h;
-        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
 
     /**
