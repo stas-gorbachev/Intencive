@@ -59,16 +59,13 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * Вычисляет hash для ключа через остаток от деления.
+     * Вычисляет hash для ключа с помощью встроенного метода hashCode.
      * Если ключ равен null всегда вернётся 0.
-     * @param key ключ, который необходимо вставить в HashMap
-     * @return индекс бакета, в который будет помещена пара ключ-значение
+     * @param key ключ, который необходимо вставить (удалить) в (из) HashMap
+     * @return hash для ключа
      */
     private int hash(K key) {
-        if (key == null) {
-            return 0;
-        }
-        return key.hashCode() % table.length;
+        return (key == null) ? 0 : key.hashCode();
     }
 
     /**
@@ -79,12 +76,11 @@ public class MyHashMap<K, V> {
      */
     public void put(K key, V value) {
         if (key == null) {
-            putForNullKey(value);
+            putNull(value);
             return;
         }
         int hash = hash(key);
         int index = (table.length - 1) & hash;
-
         Node<K, V> node = table[index];
         while (node != null) {
             if (node.hash == hash && (node.key == key || key.equals(node.key))) {
@@ -97,10 +93,11 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * Обрабатывает добавление null-ключа
-     * @param value значение
+     * В случае, когда ключ равен null, пара ключ-значение добавляется в HashMap и попадает в бакет с индексом 0.
+     * При последующих вставках просто происходит обновление значения value.
+     * @param value значение, которое необходимо поместить в HashMap
      */
-    private void putForNullKey(V value) {
+    private void putNull(V value) {
         Node<K, V> node = table[0];
         while (node != null) {
             if (node.key == null) {
@@ -113,7 +110,8 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * Вспомогательный метод для добавления нового узла
+     * Добавляет новый бакет (ноду).
+     * @param hash
      */
     private void addNode(int hash, K key, V value, int index) {
         Node<K, V> newNode = new Node<>(hash, key, value, table[index]);
