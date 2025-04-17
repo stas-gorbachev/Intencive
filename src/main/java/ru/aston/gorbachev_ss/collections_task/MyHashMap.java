@@ -2,13 +2,13 @@ package ru.aston.gorbachev_ss.collections_task;
 
 /**
  * Реализация HashMap с методами добавления/обновления, получения и удаления элементов.
- * @param <K> тип для ключей в бакете
- * @param <V> тип для значений в бакете
+ * @param <K> тип для ключей в ноде
+ * @param <V> тип для значений в ноде
  */
 public class MyHashMap<K, V> {
 
     /**
-     * Константа хранящая значение начального размера массива бакетов (нод).
+     * Константа хранящая значение начального размера массива бакетов.
      */
     private static final int START_SIZE = 16;
 
@@ -28,7 +28,7 @@ public class MyHashMap<K, V> {
     private int size;
 
     /**
-     * Описание полей бакета (ноды).
+     * Описание полей для хранения основных данных в ноде.
      */
     private static class Node<K, V> {
         final int hash;
@@ -37,11 +37,11 @@ public class MyHashMap<K, V> {
         Node<K, V> next;
 
         /**
-         * Конструктор для бакета.
+         * Конструктор для ноды.
          * @param hash hashCode полученный для ключа
          * @param key ключ
          * @param value значение
-         * @param next ссылка на следующий бакет в массиве
+         * @param next ссылка на следующую ноду
          */
         Node(int hash, K key, V value, Node<K, V> next) {
             this.hash = hash;
@@ -110,7 +110,7 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * Добавляет новый бакет (ноду).
+     * Добавляет новую ноду.
      * @param hash
      */
     private void addNode(int hash, K key, V value, int index) {
