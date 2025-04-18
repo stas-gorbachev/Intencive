@@ -38,10 +38,11 @@ public class MyHashMap<K, V> {
 
         /**
          * Конструктор для ноды.
-         * @param hash hashCode полученный для ключа
+         * @param hash hash полученный для ключа
          * @param key ключ
          * @param value значение
-         * @param next ссылка на следующую ноду
+         * @param next ссылка на следующую ноду в односвязном списке.
+         *             Равно null, при добавлении в пустой бакет.
          */
         Node(int hash, K key, V value, Node<K, V> next) {
             this.hash = hash;
@@ -110,14 +111,37 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * Добавляет новую ноду.
-     * @param hash
+     * Создаёт и добавляет новую ноду в начало односвязного списка, который находится в определённом бакете.
+     * В случае заполнения HashMap на 75% и более, её размер увеличивается в 2 раза.
+     * @param hash hash вычисляемый для ключа
+     * @param key ключ, который нужно добавить в HashMap
+     * @param value значение, которое нужно добавить в HashMap
+     * @param index индекс бакета, в который будет добавлена новая нода
      */
     private void addNode(int hash, K key, V value, int index) {
         Node<K, V> newNode = new Node<>(hash, key, value, table[index]);
         table[index] = newNode;
         if (++size > table.length * LOAD_COEFFICIENT) {
             resize();
+        }
+    }
+
+    /**
+     * При переполнении массива бакетов, его размер увеличивается в 2 раза.
+     * Из-за изменения размера пересчитываются индексы во всех нодах.
+     * А ноды, в свою очередь, кладутся в новый массив бакетов, соответственно новых индексов.
+     */
+    private void resize() {
+        Node<K, V>[] oldTable = table;
+        table = (Node<K, V>[]) new Node[oldTable.length << 1];
+        for (Node<K, V> head : oldTable) {
+            while (head != null) {
+                Node<K, V> next = head.next;
+                int newIndex = (table.length - 1) & head.hash;
+                head.next = table[newIndex];
+                table[newIndex] = head;
+                head = next;
+            }
         }
     }
 
@@ -132,7 +156,6 @@ public class MyHashMap<K, V> {
         }
         int hash = hash(key);
         int index = (table.length - 1) & hash;
-
         Node<K, V> node = table[index];
         while (node != null) {
             if (node.hash == hash && (node.key == key || key.equals(node.key))) {
@@ -199,23 +222,5 @@ public class MyHashMap<K, V> {
      */
     public boolean isEmpty() {
         return size == 0;
-    }
-
-    /**
-     * Увеличивает размер таблицы при переполнении
-     */
-    private void resize() {
-        Node<K, V>[] oldTable = table;
-        table = (Node<K, V>[]) new Node[oldTable.length << 1];
-
-        for (Node<K, V> head : oldTable) {
-            while (head != null) {
-                Node<K, V> next = head.next;
-                int newIndex = (table.length - 1) & head.hash;
-                head.next = table[newIndex];
-                table[newIndex] = head;
-                head = next;
-            }
-        }
     }
 }
