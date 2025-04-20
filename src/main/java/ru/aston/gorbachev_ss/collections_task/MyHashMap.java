@@ -13,7 +13,8 @@ public class MyHashMap<K, V> {
     private static final int START_SIZE = 16;
 
     /**
-     * Константа хранящая коэффициент загруженности мапы, при достижении которого, размер мапы увеличивается в 2 раза.
+     * Константа хранящая коэффициент загруженности мапы,
+     * при достижении которого, размер мапы увеличивается в 2 раза.
      */
     private static final float LOAD_COEFFICIENT = 0.75f;
 
@@ -23,7 +24,7 @@ public class MyHashMap<K, V> {
     private Node<K, V>[] table;
 
     /**
-     * Переменная, которая хранит значение размера мапы.
+     * Переменная, которая хранит значение количества элементов в мапе.
      */
     private int size;
 
@@ -39,8 +40,8 @@ public class MyHashMap<K, V> {
         /**
          * Конструктор для ноды.
          * @param hash hash полученный для ключа
-         * @param key ключ
-         * @param value значение
+         * @param key ключ для хранения в ноде
+         * @param value значение для хранения в ноде
          * @param next ссылка на следующую ноду в односвязном списке.
          *             Равно null, при добавлении в пустой бакет.
          */
@@ -77,7 +78,7 @@ public class MyHashMap<K, V> {
      */
     public void put(K key, V value) {
         if (key == null) {
-            putNull(value);
+            putWithNullKey(value);
             return;
         }
         int hash = hash(key);
@@ -98,7 +99,7 @@ public class MyHashMap<K, V> {
      * При последующих вставках просто происходит обновление значения value.
      * @param value значение, которое необходимо поместить в HashMap
      */
-    private void putNull(V value) {
+    private void putWithNullKey(V value) {
         Node<K, V> node = table[0];
         while (node != null) {
             if (node.key == null) {
@@ -128,12 +129,12 @@ public class MyHashMap<K, V> {
 
     /**
      * При переполнении массива бакетов, его размер увеличивается в 2 раза.
-     * Из-за изменения размера пересчитываются индексы во всех нодах.
+     * Из-за изменения размера пересчитываются индексы хранения для всех нод.
      * А ноды, в свою очередь, кладутся в новый массив бакетов, соответственно новых индексов.
      */
     private void resize() {
         Node<K, V>[] oldTable = table;
-        table = (Node<K, V>[]) new Node[oldTable.length << 1];
+        table = (Node<K, V>[]) new Node[oldTable.length * 2];
         for (Node<K, V> head : oldTable) {
             while (head != null) {
                 Node<K, V> next = head.next;
@@ -146,13 +147,16 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * Возвращает значение по ключу
-     * @param key ключ
+     * По хэшу приходящего ключа ищет нужный бакет.
+     * Затем, в нём находит ноду, в которой содержится необходимый ключ.
+     * И возвращает соответствующее значение из пары ключ-значение.
+     * Если ключ равен null - возврат значения по ключу выполняется через другой метод.
+     * @param key ключ, по которому нужно вернуть значение
      * @return значение или null, если ключ отсутствует
      */
     public V get(K key) {
         if (key == null) {
-            return getForNullKey();
+            return getWithNullKey();
         }
         int hash = hash(key);
         int index = (table.length - 1) & hash;
@@ -167,9 +171,11 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * Обрабатывает поиск по null-ключу
+     * Ищет ноду с null-ключом в бакете с индексом 0, потому что все null-ключи попадают в этот бакет.
+     * Если находит - возвращает соответствующее значение, в противном случае возвращает null.
+     * @return значение или null, если ключ отсутствует
      */
-    private V getForNullKey() {
+    private V getWithNullKey() {
         Node<K, V> node = table[0];
         while (node != null) {
             if (node.key == null) {
@@ -181,17 +187,15 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * Удаляет пару по ключу
-     * @param key ключ
+     * Удаляет ноду из HaspMap по заданному ключу.
+     * @param key ключ, по которому должен происходить поиск нужной пары ключ-значение
      * @return удаленное значение или null, если ключ отсутствовал
      */
     public V remove(K key) {
         int hash = hash(key);
         int index = (table.length - 1) & hash;
-
         Node<K, V> prev = null;
         Node<K, V> node = table[index];
-
         while (node != null) {
             if (node.hash == hash && (node.key == key || key.equals(node.key))) {
                 if (prev == null) {
@@ -209,16 +213,16 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * Возвращает количество элементов
-     * @return текущий размер мапы
+     * Возвращает количество элементов находящихся в HashMap.
+     * @return количество нод в мапе
      */
     public int size() {
         return size;
     }
 
     /**
-     * Проверяет пустоту мапы
-     * @return true если нет элементов
+     * Проверяет, содержит ли HashMap элементы.
+     * @return true - если мапа пуста, в противном случае - false
      */
     public boolean isEmpty() {
         return size == 0;
