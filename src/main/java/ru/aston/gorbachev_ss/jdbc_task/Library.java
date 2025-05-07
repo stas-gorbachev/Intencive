@@ -10,40 +10,34 @@ public class Library {
         String user = "sql7777273";
         String password = "xRR4akh9BW";
 
-        try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            if (conn != null) {
-                Statement stmt = conn.createStatement();
-
-                PreparedStatement ps = conn.prepareStatement("select * from emp where id = ?");
-
-                ps.setInt(1, 1);
-
-                ps.executeQuery();
-
-                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name TEXT)");
-
-                stmt.executeUpdate("INSERT INTO users (name) VALUES ('Bob')");
-
-                ResultSet rs = stmt.executeQuery("SELECT * FROM users");
-
-                while (rs.next()) {
-                    var i = rs.getInt(1);
-                    rs.getInt(2);
-                    rs.getInt(5);
-                    int id = rs.getInt("id");
-                    String name = rs.getString("name");
-                    System.out.println("User ID: " + id + ", Name: " + name);
-
-
-                    rs.getString(3);
-                    rs.getString(4);
-                }
-
-                rs.close();
-                stmt.close();
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+//                addNewBook(statement);
+//                addNewReader(statement);
+                booksOutput(statement);
+                statement.close();
             }
-        } catch (SQLException e) {
-            System.out.println("Database error: " + e.getMessage());
+        } catch (SQLException exception) {
+            System.out.println("Ошибка подключения: " + exception.getMessage());
+        }
+    }
+
+    public static void addNewBook(Statement statement) throws SQLException {
+        statement.executeUpdate("INSERT INTO books (title, author_id, published_year) VALUES ('Война и мир', 1, 1869)");
+    }
+
+    public static void addNewReader(Statement statement) throws SQLException {
+        statement.executeUpdate("INSERT INTO readers (first_name, last_name, email) VALUES ('Влад', 'Иванов', 'vlad.ivanov@gmail.com')");
+    }
+
+    public static void booksOutput(Statement statement) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM books");
+        while (resultSet.next()) {
+            System.out.println("ID книги: " + resultSet.getInt("id") +
+                    ", Название: " + resultSet.getString("title") +
+                    ", ID автора: " + resultSet.getInt("author_id") +
+                    ", Год публикации: " + resultSet.getInt("published_year"));
         }
     }
 }
