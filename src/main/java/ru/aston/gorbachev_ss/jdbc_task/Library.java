@@ -15,9 +15,12 @@ public class Library {
                 Statement statement = connection.createStatement();
 //                addNewBook(statement);
 //                addNewReader(statement);
-                booksOutput(statement);
-                readersOutput(statement);
-                authorsOutput(statement);
+                outputBooks(statement);
+//                outputReaders(statement);
+//                outputAuthors(statement);
+//                updateBook(connection);
+                deleteBook(connection);
+                outputBooks(statement);
                 statement.close();
             }
         } catch (SQLException exception) {
@@ -33,7 +36,7 @@ public class Library {
         statement.executeUpdate("INSERT INTO readers (first_name, last_name, email) VALUES ('Виктор', 'Павлов', 'viktor.pavlov@mail.ru')");
     }
 
-    public static void booksOutput(Statement statement) throws SQLException {
+    public static void outputBooks(Statement statement) throws SQLException {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM books");
         while (resultSet.next()) {
             System.out.println("ID книги: " + resultSet.getInt("id") +
@@ -43,7 +46,7 @@ public class Library {
         }
     }
 
-    public static void readersOutput(Statement statement) throws SQLException {
+    public static void outputReaders(Statement statement) throws SQLException {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM readers");
         while (resultSet.next()) {
             System.out.println("ID читателя: " + resultSet.getInt("id") +
@@ -53,12 +56,26 @@ public class Library {
         }
     }
 
-    public static void authorsOutput(Statement statement) throws SQLException {
+    public static void outputAuthors(Statement statement) throws SQLException {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM authors");
         while (resultSet.next()) {
             System.out.println("ID автора: " + resultSet.getInt("id") +
                     " | Имя: " + resultSet.getString("first_name") +
                     " | Фамилия: " + resultSet.getString("last_name"));
         }
+    }
+
+    public static void updateBook(Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE books SET published_year = 2025 WHERE id = ?");
+        preparedStatement.setInt(1, 2);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+    }
+
+    public static void deleteBook(Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM books WHERE id = ?");
+        preparedStatement.setInt(1, 2);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
     }
 }
