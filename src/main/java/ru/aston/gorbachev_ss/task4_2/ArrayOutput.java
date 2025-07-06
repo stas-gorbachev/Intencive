@@ -2,7 +2,7 @@ package ru.aston.gorbachev_ss.task4_2;
 
 public class ArrayOutput {
 
-    void print(int[] array) {
+    public void print(int[] array) {
         System.out.print("Array: [");
         for (int i = 0; i < array.length - 1; i++) {
             System.out.print(array[i] + ", ");

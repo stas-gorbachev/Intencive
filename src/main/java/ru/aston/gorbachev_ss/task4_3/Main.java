@@ -1,5 +1,7 @@
 package ru.aston.gorbachev_ss.task4_3;
 
+import ru.aston.gorbachev_ss.task4_2.ArrayOutput;
+
 public class Main {
 
     public static void main(String[] args) {

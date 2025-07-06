@@ -1,5 +1,7 @@
 package ru.aston.gorbachev_ss.task4_4;
 
+import ru.aston.gorbachev_ss.task4_2.ArrayOutput;
+
 import java.util.Random;
 
 public class Main {
@@ -13,6 +15,8 @@ public class Main {
         ArrayOutput arrayOutput = new ArrayOutput();
         arrayOutput.print(array);
         MergeSort mergeSort = new MergeSort();
-        mergeSort.sort();
+        mergeSort.sort(array);
+        System.out.println("Sorting...");
+        arrayOutput.print(array);
     }
 }

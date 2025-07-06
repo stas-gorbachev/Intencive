@@ -8,6 +8,7 @@ public class Main {
         arrayOutput.print(array);
         SwapFirstAndLast swapFirstAndLast = new SwapFirstAndLast();
         swapFirstAndLast.swap(array);
+        System.out.println("Swap the first and last element...");
         arrayOutput.print(array);
     }
 }
